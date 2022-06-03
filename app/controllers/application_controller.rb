@@ -3,7 +3,8 @@ class ApplicationController < Sinatra::Base
   
   # Add your routes here
   get "/" do
-    { message: "Good luck with your project!" }.to_json
+    athletes = Athlete.all
+    athletes.to_json(include: { workouts: { include: :log_entries } })
   end
 
   get "/athletes" do
@@ -18,7 +19,7 @@ class ApplicationController < Sinatra::Base
 
   get "/workouts" do
     workouts = Workout.all
-    workouts.to_json
+    workouts.to_json(include: :log_entries)
   end
 
   get "/workouts/:id" do
@@ -33,6 +34,11 @@ class ApplicationController < Sinatra::Base
 
   get "/athletes/:id/log_entries" do
     athlete = Athlete.find(params[:id]).log_entries
+    athlete.to_json
+  end
+
+  get "/athletes/:id/workouts" do
+    athlete = Athlete.find(params[:id]).workouts
     athlete.to_json
   end
 

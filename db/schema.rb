@@ -18,20 +18,22 @@ ActiveRecord::Schema.define(version: 2022_06_02_192502) do
   end
 
   create_table "log_entries", force: :cascade do |t|
-    t.string "entry_date"
     t.integer "workout_rating"
-    t.integer "run_distance"
-    t.integer "run_time"
-    t.string "notes"
+    t.float "mileage"
+    t.string "details"
+    t.string "comments"
     t.integer "workout_id"
     t.integer "athlete_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "workouts", force: :cascade do |t|
+    t.date "date"
     t.string "workout_type"
-    t.integer "run_duration"
+    t.string "details"
+    t.integer "approx_duration"
     t.string "add_ons"
-    t.string "notes"
   end
 
 end
