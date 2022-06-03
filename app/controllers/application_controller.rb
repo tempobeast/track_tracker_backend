@@ -94,11 +94,10 @@ class ApplicationController < Sinatra::Base
 
   post "/log_entries" do 
     log_entry = LogEntry.create(
-      entry_date: params[:entry_date], 
       workout_rating: params[:workout_rating],
-      run_distance: params[:run_distance],
-      run_time: params[:run_time],
-      notes: params[:notes],
+      mileage: params[:mileage],
+      details: params[:details],
+      comments: params[:comments],
       workout_id: params[:workout_id],
       athlete_id: params[:athlete_id]
       )
