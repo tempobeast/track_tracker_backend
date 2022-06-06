@@ -9,7 +9,7 @@ class ApplicationController < Sinatra::Base
 
   get "/athletes" do
     athletes = Athlete.all
-    athletes.to_json
+    athletes.to_json(include: { workouts: { include: :log_entries } })
   end
 
   get "/athletes/:id" do
@@ -29,7 +29,7 @@ class ApplicationController < Sinatra::Base
 
   get "/log_entries" do
     entries = LogEntry.all
-    entries.to_json
+    entries.to_json(include: :athlete)
   end
 
   get "/athletes/:id/log_entries" do
@@ -68,9 +68,10 @@ class ApplicationController < Sinatra::Base
   post "/workouts" do 
     workout = Workout.create(
       workout_type: params[:workout_type], 
-      run_duration: params[:run_duration],
+      date: params[:date],
       add_ons: params[:add_ons],
-      notes: params[:notes]
+      details: params[:details],
+      approx_duration: params[:approx_duration]
       )
     workout.to_json
   end
@@ -101,7 +102,7 @@ class ApplicationController < Sinatra::Base
       workout_id: params[:workout_id],
       athlete_id: params[:athlete_id]
       )
-    log_entry.to_json
+    log_entry.to_json(include: :athlete)
   end
 
   patch "/log_entries/:id" do 
