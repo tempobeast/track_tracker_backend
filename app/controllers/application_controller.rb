@@ -18,7 +18,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/workouts" do
-    workouts = Workout.all
+    workouts = Workout.all.order('date')
     workouts.to_json(include: :log_entries)
   end
 
@@ -56,7 +56,7 @@ class ApplicationController < Sinatra::Base
       name: params[:name],
       age: params[:age]
     )
-    athlete.to_json
+    athlete.to_json(include: { workouts: { include: :log_entries } })
   end
 
   delete "/athletes/:id" do
