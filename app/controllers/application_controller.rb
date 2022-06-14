@@ -4,12 +4,12 @@ class ApplicationController < Sinatra::Base
   # Add your routes here
   get "/" do
     athletes = Athlete.all
-    athletes.to_json(include: { workouts: { include: :log_entries } })
+    athletes.to_json(include: { log_entries: { include: :workouts } })
   end
 
   get "/athletes" do
     athletes = Athlete.all
-    athletes.to_json(include: { workouts: { include: :log_entries } })
+    athletes.to_json(include: {log_entries: { include: :workout }})
   end
 
   get "/athletes/:id" do
@@ -19,7 +19,7 @@ class ApplicationController < Sinatra::Base
 
   get "/workouts" do
     workouts = Workout.all.order('date')
-    workouts.to_json(include: :log_entries)
+    workouts.to_json(include: {log_entries: { include: :athlete }})
   end
 
   get "/workouts/:id" do
@@ -47,7 +47,7 @@ class ApplicationController < Sinatra::Base
       name: params[:name], 
       age: params[:age]
       )
-    athlete.to_json
+    athlete.to_json(include: { log_entries: { include: :workout } })
   end
 
   patch "/athletes/:id" do
@@ -56,11 +56,12 @@ class ApplicationController < Sinatra::Base
       name: params[:name],
       age: params[:age]
     )
-    athlete.to_json(include: { workouts: { include: :log_entries } })
+    athlete.to_json(include: { log_entries: { include: :workout } })
   end
 
   delete "/athletes/:id" do
     athlete = Athlete.find(params[:id])
+    athlete.log_entries.destroy_all
     athlete.destroy
     athlete.to_json
   end
@@ -73,7 +74,7 @@ class ApplicationController < Sinatra::Base
       details: params[:details],
       approx_duration: params[:approx_duration]
       )
-    workout.to_json
+    workout.to_json(include: :log_entries)
   end
 
   patch "/workouts/:id" do 
