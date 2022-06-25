@@ -27,20 +27,20 @@ class ApplicationController < Sinatra::Base
     workout.to_json
   end
 
-  get "/log_entries" do
-    entries = LogEntry.all
-    entries.to_json(include: :athlete)
-  end
+  # get "/log_entries" do
+  #   log_entries = LogEntry.all
+  #   entries.to_json(include: :athlete)
+  # end
 
-  get "/athletes/:id/log_entries" do
-    athlete = Athlete.find(params[:id]).log_entries
-    athlete.to_json
-  end
+  # get "/athletes/:id/log_entries" do
+  #   log_entries = Athlete.find(params[:id]).log_entries
+  #   athlete.to_json
+  # end
 
-  get "/athletes/:id/workouts" do
-    athlete = Athlete.find(params[:id]).workouts
-    athlete.to_json
-  end
+  # get "/athletes/:id/workouts" do
+  #   workouts = Athlete.find(params[:id]).workouts
+  #   athlete.to_json
+  # end
 
   post "/athletes" do 
     athlete = Athlete.create(
@@ -77,16 +77,16 @@ class ApplicationController < Sinatra::Base
     workout.to_json(include: :log_entries)
   end
 
-  patch "/workouts/:id" do 
-    workout = Workout.find(params[:id])
-    workout.update(
-      workout_type: params[:workout_type], 
-      run_duration: params[:run_duration],
-      add_ons: params[:add_ons],
-      notes: params[:notes]
-      )
-    workout.to_json
-  end
+  # patch "/workouts/:id" do 
+  #   workout = Workout.find(params[:id])
+  #   workout.update(
+  #     workout_type: params[:workout_type], 
+  #     run_duration: params[:run_duration],
+  #     add_ons: params[:add_ons],
+  #     notes: params[:notes]
+  #     )
+  #   workout.to_json
+  # end
 
   delete "/workouts/:id" do
     workout = Workout.find(params[:id])
@@ -106,17 +106,17 @@ class ApplicationController < Sinatra::Base
     log_entry.to_json(include: :athlete)
   end
 
-  patch "/log_entries/:id" do 
-    log_entry = LogEntry.find(params[:id])
-    log_entry.update(
-      entry_date: params[:entry_date], 
-      workout_rating: params[:workout_rating],
-      run_distance: params[:run_distance],
-      run_time: params[:run_time],
-      notes: params[:notes]
-      )
-    log_entry.to_json
-  end
+  # patch "/log_entries/:id" do 
+  #   log_entry = LogEntry.find(params[:id])
+  #   log_entry.update(
+  #     entry_date: params[:entry_date], 
+  #     workout_rating: params[:workout_rating],
+  #     run_distance: params[:run_distance],
+  #     run_time: params[:run_time],
+  #     notes: params[:notes]
+  #     )
+  #   log_entry.to_json
+  # end
 
   delete "/log_entries/:id" do
     log_entry = LogEntry.find(params[:id])
